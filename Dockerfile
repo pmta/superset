@@ -8,9 +8,10 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 # if you prefer Postgres, you may want to use `psycopg2-binary` instead
 #RUN pip install mysqlclient
 COPY ./database-dependencies.txt .
-RUN mkdir /app/docker/
+RUN mkdir -p /app/docker/
 COPY ./docker/* /app/docker/
-RUN chown -R superset:superset /app/docker/
+COPY ./docker/docker-bootstrap.sh /app/
+RUN chmod +x /app/docker-bootstrap.sh && chown -R superset:superset /app/docker-bootstrap.sh
 
 RUN pip install -r database-dependencies.txt
 
