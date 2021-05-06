@@ -1,0 +1,3 @@
+mysqlclient            # MySQL         mysql://
+PyHive                 # Presto  presto://, Hive    hive://, SparkSQL    jdbc+hive://
+
