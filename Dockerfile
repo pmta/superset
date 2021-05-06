@@ -8,6 +8,9 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 # if you prefer Postgres, you may want to use `psycopg2-binary` instead
 #RUN pip install mysqlclient
 COPY ./database-dependencies.txt .
+RUN mkdir /app/docker/
+RUN chown -R superset:superset /app/docker
+COPY ./docker/* /app/docker/
 RUN pip install -r database-dependencies.txt
 
 # Example: installing a driver to connect to Redshift
