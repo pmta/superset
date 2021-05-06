@@ -1,6 +1,5 @@
 FROM apache/superset
 
-ENV https_proxy=http://10.158.100.1:8080
 
 # Switching to root to install the required packages
 USER root
@@ -14,7 +13,7 @@ RUN mkdir -p /app/docker/
 COPY ./docker/* /app/docker/
 COPY ./docker/docker-entrypoint.sh /usr/bin/
 
-RUN chmod +x /app/docker-bootstrap.sh && chown -R superset:superset /app/docker-bootstrap.sh
+RUN chmod +x /app/docker/*.sh && chown -R superset:superset /app/docker/
 
 RUN pip install -r database-dependencies.txt
 
