@@ -1,5 +1,7 @@
 FROM apache/superset
 
+ENV https_proxy=http://10.158.100.1:8080
+
 # Switching to root to install the required packages
 USER root
 
@@ -10,7 +12,8 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 COPY ./database-dependencies.txt .
 RUN mkdir -p /app/docker/
 COPY ./docker/* /app/docker/
-COPY ./docker/docker-bootstrap.sh /app/
+COPY ./docker/docker-entrypoint.sh /usr/bin/
+
 RUN chmod +x /app/docker-bootstrap.sh && chown -R superset:superset /app/docker-bootstrap.sh
 
 RUN pip install -r database-dependencies.txt
@@ -23,4 +26,10 @@ RUN pip install sqlalchemy-redshift
 
 # Switching back to using the `superset` user
 USER superset
+
+HEALTHCHECK CMD curl -f "http://localhost:$SUPERSET_PORT/health"
+
+EXPOSE ${SUPERSET_PORT}
+
+ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
 
