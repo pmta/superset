@@ -9,8 +9,9 @@ RUN /usr/local/bin/python -m pip install --upgrade pip
 #RUN pip install mysqlclient
 COPY ./database-dependencies.txt .
 RUN mkdir /app/docker/
-RUN chown -R superset:superset /app/docker
 COPY ./docker/* /app/docker/
+RUN chown -R superset:superset /app/docker/
+
 RUN pip install -r database-dependencies.txt
 
 # Example: installing a driver to connect to Redshift
